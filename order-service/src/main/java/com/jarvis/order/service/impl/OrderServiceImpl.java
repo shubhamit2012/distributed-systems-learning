@@ -8,7 +8,10 @@ import com.jarvis.order.service.OrderService;
 import com.jarvis.outbox.entity.OutboxEvents;
 import com.jarvis.outbox.enums.OutboxStatus;
 import com.jarvis.outbox.event.OrderCreatedEvent;
+import com.jarvis.outbox.publisher.OutboxPublisher;
 import com.jarvis.outbox.repository.OutboxRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +22,7 @@ import java.util.UUID;
 @Service
 public class OrderServiceImpl implements OrderService {
 
+    private static final Logger log = LoggerFactory.getLogger(OrderServiceImpl.class);
     private final OrderRepository orderRepository;
     private final OutboxRepository outboxRepsitory;
 
@@ -30,7 +34,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void createOrder(CreateOrderRequest createOrderRequest) {
-        System.out.println("creating order ...");
+        log.info("creating order ...");
         Order order = Order.builder()
                 .id(UUID.randomUUID())
                 .customerId(createOrderRequest.getCustomerId())
@@ -40,7 +44,7 @@ public class OrderServiceImpl implements OrderService {
                 .build();
         orderRepository.save(order);
 
-        System.out.println("creating order created event ...");
+        log.info("creating order created event ...");
         OrderCreatedEvent orderCreatedEvent = OrderCreatedEvent.builder()
                 .version(1)
                 .eventType("OrderCreated")
@@ -48,7 +52,7 @@ public class OrderServiceImpl implements OrderService {
                 .payload(order.toString())
                 .build();
 
-        System.out.println("creating outbox event ...");
+        log.info("creating outbox event ...");
         OutboxEvents outboxEvent = OutboxEvents.builder()
                 .id(UUID.randomUUID())
                 .aggregateType("Order")
