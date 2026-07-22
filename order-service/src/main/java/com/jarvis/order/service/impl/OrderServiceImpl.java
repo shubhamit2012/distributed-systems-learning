@@ -43,7 +43,7 @@ public class OrderServiceImpl implements OrderService {
         System.out.println("creating order created event ...");
         OrderCreatedEvent orderCreatedEvent = OrderCreatedEvent.builder()
                 .version(1)
-                .eventType("")
+                .eventType("OrderCreated")
                 .eventId(UUID.randomUUID())
                 .payload(order.toString())
                 .build();
@@ -53,7 +53,7 @@ public class OrderServiceImpl implements OrderService {
                 .id(UUID.randomUUID())
                 .aggregateType("Order")
                 .aggregateId(order.getId())
-                .eventType(OutboxStatus.PENDING.toString())
+                .eventType("OrderCreated")
                 .payload(orderCreatedEvent.toString())
                 .published(false)
                 .createdAt(LocalDateTime.now())

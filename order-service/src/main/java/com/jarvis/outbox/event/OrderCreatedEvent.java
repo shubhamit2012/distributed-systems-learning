@@ -10,6 +10,7 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class OrderCreatedEvent {
 
     private UUID eventId;
