@@ -1,9 +1,10 @@
-package com.jarvis.orderservice.entity;
+package com.jarvis.order.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -18,29 +19,22 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "outbox_events")
-public class OutboxEvents {
+@Table(name = "orders")
+public class Order {
 
     @Id
     @Column(name = "id", nullable = false, updatable = false)
     private UUID id;
 
-    @Column(name = "aggregate_type", length = 50)
-    private String aggregateType;
+    @Column(name = "customer_id", nullable = false)
+    private UUID customerId;
 
-    @Column(name = "aggregate_id")
-    private UUID aggregateId;
+    @Column(name = "total_amount", precision = 10, scale = 2)
+    private BigDecimal totalAmount;
 
-    @Column(name = "event_type", length = 100)
-    private String eventType;
-
-    @Column(name = "payload")
-    private String payload;
+    @Column(name = "status", length = 20)
+    private String status;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
-
-    @Builder.Default
-    @Column(name = "published", nullable = false)
-    private Boolean published = false;
 }

@@ -1,6 +1,6 @@
-package com.jarvis.orderservice.service;
+package com.jarvis.order.service;
 
-import com.jarvis.orderservice.dto.CreateOrderRequest;
+import com.jarvis.order.dto.CreateOrderRequest;
 
 public interface OrderService {
 

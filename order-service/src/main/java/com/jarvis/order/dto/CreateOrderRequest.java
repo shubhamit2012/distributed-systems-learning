@@ -1,4 +1,4 @@
-package com.jarvis.orderservice.dto;
+package com.jarvis.order.dto;
 
 import lombok.*;
 
